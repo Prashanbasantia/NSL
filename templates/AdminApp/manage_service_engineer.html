@@ -1,0 +1,146 @@
+{% extends 'AdminApp/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header d-flex d-flex-row d-flex-sm-column justify-content-between align-items-center">
+        <h5>Manage Service Engineer</h5>
+        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#add_employee" aria-controls="offcanvasScroll"
+            class="btn btn-primary">Add Service Engr.</button>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Employee Id</th>
+                    <th>Designation</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for ser in service_engineers %}
+                <tr>
+                    <td><a href="" class="fw-bolder">{{ser.cu.name}}</a></td>
+                    <td>{{ser.cu.email}}</td>
+                    <td>{{ser.cu.phone}}</td>
+                    <td>{{ser.empid}}</td>
+                    <td><span class="badge bg-label-primary me-1">{{ser.designation}}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- add new employee  -->
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="add_employee"
+    aria-labelledby="offcanvasScrollLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 id="offcanvasScrollLabel" class="offcanvas-title">Add New Service Engr.</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body mx-0 flex-grow-0">
+        <form method="POST" action="{{url_admin_manage_service_engineer}}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label" for="name2">Full Name</label>
+                <div class="input-group input-group-merge">
+                    <span id="name2" class="input-group-text">
+                        <i class="bx bx-user"></i>
+                    </span>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Employee Name"
+                        aria-label="Enter Employee Name" aria-describedby="name2" autocomplete="off" required />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="email">Email</label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="email2"><i class="bx bx-envelope"></i></span>
+                    <input type="text" id="email" name="email" class="form-control" placeholder="Enter Employee Email"
+                        aria-label="Enter Employee Email" aria-describedby="email2" autocomplete="off" required />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="phone">Phone</label>
+                <div class="input-group input-group-merge">
+                    <span id="phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
+                    <input type="text" id="phone" name="phone" class="form-control phone-mask"
+                        placeholder="Enter Employee Phone" aria-label="Enter Employee Phone" aria-describedby="phone2"
+                        autocomplete="off" required />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="empid">Employee ID</label>
+                <div class="input-group input-group-merge">
+                    <span id="empid2" class="input-group-text">
+                        <i class="bx bxs-user-badge"></i>
+                    </span>
+                    <input type="text" class="form-control" id="empid" name="empid" aria-describedby="empid2"
+                        placeholder="Enter Employee ID" aria-label="Enter Employee ID" autocomplete="off" required />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="designation">Designation</label>
+                <div class="input-group input-group-merge">
+                    <span id="designation2" class="input-group-text">
+                        <i class="bx bx-user-pin"></i>
+                    </span>
+                    <input type="text" class="form-control" id="designation" name="designation"
+                        aria-describedby="designation2" placeholder="Enter Employee Designation"
+                        aria-label="Enter Employee Designation" autocomplete="off" required />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="designation">Password</label>
+                <div class="input-group input-group-merge">
+                    <span id="designation2" class="input-group-text">
+                        <i class="bx bx-lock"></i>
+                    </span>
+                    <input type="text" class="form-control" id="password" aria-describedby="password2"
+                        placeholder="Password" aria-label="Password" autocomplete="off" readonly />
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <button type="submit" class="btn btn-primary w-50">Create</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- end add new employee -->
+{% endblock content %}
+
+
+{% block customjs %}
+<script>
+    const email = document.getElementById("email");
+    const phone = document.getElementById("phone");
+    const password = document.getElementById("password");
+
+    email.addEventListener("input", updatePass);
+    phone.addEventListener("input", updatePass);
+
+    function updatePass(e) {
+        let emailval = ''
+        let phoneval = ''
+        if (e.target.name === "phone") {
+            emailval = email.value
+            phoneval = e.target.value;
+        } else {
+            emailval = e.target.value;
+            phoneval = phone.value
+        }
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailval)) {
+            const newpassemail = emailval.split('@')[0]
+            password.value = newpassemail + '@' + phoneval
+        }
+    }
+</script>
+
+{% endblock customjs %}
