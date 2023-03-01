@@ -1,0 +1,19 @@
+## Step0: Clone repo
+
+    # command : git clone https://github.com/Prashanbasantia/NSL.git
+
+## Step1: Move to project Directory
+
+    # command : cd NSL
+
+## Step2: install package
+
+    # command: pip install -r requiremetns.txt
+
+### Step3: start Server
+
+    # command: python manage.py runserver
+
+### Step4: access server url
+
+    # command: http://127.0.0.1:8000/
