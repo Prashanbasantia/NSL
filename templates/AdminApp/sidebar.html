@@ -1,10 +1,9 @@
 {% load static %}
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-    {% url 'admin_dashboard' as url_admin_dashboard%}
-    {% url 'admin_manage_employee' as url_admin_manage_employee%}
-    {% url 'admin_manage_service_engineer' as url_admin_manage_service_engineer%}
+    {% url 'dashboard' as dashboard%}
+    {% url 'manage_issues' as manage_issues%}
     <div class="app-brand demo">
-        <a href="{{admin_dashboard}}" class="app-brand-link">
+        <a href="{{dashboard}}" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -61,28 +60,16 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboard -->
-        <li class="menu-item {% if request.path == url_admin_dashboard %}active{% endif%}">
-            <a href="{{url_admin_dashboard}}" class="menu-link">
+        <li class="menu-item {% if request.path == dashboard %}active{% endif%}">
+            <a href="{{dashboard}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
             </a>
         </li>
-        <li class="menu-item {% if request.path == 'Complaints' %}active{% endif%}">
-            <a href="{{url_admin_dashboard}}" class="menu-link">
+        <li class="menu-item {% if request.path == 'manage_issues' %}active{% endif%}">
+            <a href="{{manage_issues}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-info-square"></i>
-                <div data-i18n="Analytics">Complaints</div>
-            </a>
-        </li>
-        <li class="menu-item {% if request.path == url_admin_manage_employee %}active{% endif%}">
-            <a href="{{url_admin_manage_employee}}" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-user-detail"></i>
-                <div data-i18n="Analytics">Manage Employee</div>
-            </a>
-        </li>
-        <li class="menu-item {% if request.path == url_admin_manage_service_engineer %}active{% endif%}">
-            <a href="{{url_admin_manage_service_engineer}}" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-user-voice"></i>
-                <div data-i18n="Analytics">Manage Service Engr.</div>
+                <div data-i18n="Analytics">Manage Issues</div>
             </a>
         </li>
     </ul>

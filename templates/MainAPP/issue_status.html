@@ -1,0 +1,68 @@
+{% extends 'MainApp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <h5 class="card-header">Check Issue Status</h5>
+            <hr class="my-0" />
+            <div class="card-body">
+                {% include 'alert_msg.html'%}
+                {% if issue %}
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fw-bold"> <a href='{{status}}'><i class='bx bx-arrow-back text-primary me-1'></i></a>
+                        {{issue.ticket_no}}
+                    </span>
+
+                    <div>Status: <span
+                            class="badge rounded-pill {%if issue.status == 'New' %}bg-primary {% elif issue.status == 'Open' %}bg-warning {%else%}bg-success{%endif%}">
+                            {{issue.status}}</span>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-md-row flex-column justify-content-between align-items-center">
+                    <ul>
+                        <li><strong>Issue Type</strong> : <span class="badge bg-info">{{issue.issue_type}}</span>
+                        </li>
+                        <li><strong>Issue Date</strong> : {{issue.issue_date}}</li>
+                        {% if issue.resolved_date %}<li><strong>Resolved date</strong> :
+                            {{issue.resolved_date}}
+                        </li> {% endif%}
+                        {% if issue.assign_name and issue.assign_phone %}<li><strong>Service Engr.</strong> :
+                            {{issue.assign_name}}<small>({{issue.assign_phone}})</small>
+                        </li> {% endif%}
+                        <li><strong>Location</strong> : {{issue.location}}</li>
+                        <li><strong>Description</strong> : {{issue.description}}</li>
+
+                    </ul>
+                    <ul>
+                        <li><strong>Name</strong> : {{issue.emp_name}}</li>
+                        <li><strong>Email</strong> : {{issue.emp_email}}</li>
+                        <li><strong>Phone</strong> : {{issue.emp_phone}}</li>
+                        <li><strong>Employee Id</strong> : {{issue.emp_empid}}</li>
+                        <li><strong>Designation</strong> : {{issue.emp_designation}}</li>
+                        <li><strong>Department</strong> : {{issue.emp_department}}</li>
+                    </ul>
+                </div>
+
+                {% else %}
+                <form id="formAccountSettings" method="GET" action="{% url 'status'%}">
+                    <div class="mb-3">
+                        <label class="form-label" for="ticket_number">Ticket Number</label>
+                        <input type="text" id="ticket_number" value="{{ticket_number}}" name="ticket_number"
+                            class="form-control" placeholder="Enter Ticket Number" />
+                    </div>
+                    <div class="mt-2">
+                        <button type="submit" class="btn btn-primary me-2">Check Status</button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+            <!-- /Account -->
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+{% endblock content %}

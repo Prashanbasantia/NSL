@@ -8,7 +8,7 @@
 
 ## Step2: install package
 
-    # command: pip install -r requiremetns.txt
+    # command: pip install -r requirements.txt
 
 ### Step3: start Server
 

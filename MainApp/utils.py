@@ -6,6 +6,21 @@ def getId(prefix: str = "") -> str:
     return f'{prefix}{str(uuid.uuid4())}'
 
 
+def generate_ticket_no(cid: str = '0', company_name: str = '') -> str:
+    if cid is None:
+        return f'{company_name}00001'
+    if len(cid) == 1:
+        return f'{company_name}0000{cid}'
+    elif len(cid) == 2:
+        return f'{company_name}000{cid}'
+    elif len(cid) == 3:
+        return f'{company_name}00{cid}'
+    elif len(cid) == 4:
+        return f'{company_name}0{cid}'
+    else:
+        return f'{company_name}{cid}'
+
+
 def Syserror(e):
     exception_type, exception_object, exception_traceback = sys.exc_info()
     filename = exception_traceback.tb_frame.f_code.co_filename

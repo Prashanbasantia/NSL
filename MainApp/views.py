@@ -1,12 +1,72 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login as log_in
-# Create your views here.
-from .models import CustomUsers
-from django.db.models import Q
 from .auth_backend import Login
+from django.contrib.auth import get_user_model
+from django.db.models import Q
+from django.db import transaction
+from MainApp.models import Issues
+from datetime import datetime
+import json
+from django.views.decorators.csrf import csrf_exempt
+from .utils import Syserror
+UserModel = get_user_model()
+ISSUE_TYPE_CHOICES = ['Printer', 'Network', 'Computer', 'Software', 'Other']
+
+
+def indexView(request):  # sourcery skip: last-if-guard
+    return render(request, 'MainApp/index.html')
+
+
+@csrf_exempt
+def raised_issue(request):
+    if request.method != 'POST':
+        resp_data = {"success": False, "message": "Required POST Method"}
+        return JsonResponse(resp_data)
+    try:
+        data = json.loads(request.body)
+        email = data.get("email", None)
+        name = data.get("name", None)
+        phone = data.get("phone", None)
+        empid = data.get("empid", None)
+        designation = data.get("designation", None)
+        department = data.get("department", None)
+        issue_type = data.get("issue_type", None)
+        location = data.get("location", None)
+        description = data.get("description", None)
+        if not all([email, name, phone, empid, designation,
+                    department, issue_type, location, description]):
+            resp_data = {"success": False, "message": "Required All Field"}
+            return JsonResponse(resp_data)
+        if issue_type not in ISSUE_TYPE_CHOICES:
+            resp_data = {"success": False, "message": "Invalid issue type"}
+            return JsonResponse(resp_data)
+        with transaction.atomic():
+            issue = Issues.objects.create(
+                emp_name=name, emp_email=email, emp_phone=phone, emp_designation=designation,
+                emp_department=department, emp_empid=empid, location=location, issue_type=issue_type,
+                description=description, issue_date=datetime.now())
+            resp_data = {"success": True, "message": "Issue raised successfully",
+                         "ticket_number": issue.ticket_no}
+            return JsonResponse(resp_data)
+
+    except Exception as e:
+        Syserror(e)
+        resp_data = {"success": False, "message": f"{e}"}
+        return JsonResponse(resp_data)
+
+
+def IssueStatusView(request):  # sourcery skip: last-if-guard
+    issue = None
+    if ticket_number := request.GET.get("ticket_number", ''):
+        if issueCheck := Issues.objects.filter(ticket_no=ticket_number):
+            issue = issueCheck.first()
+        else:
+            messages.error(
+                request, "Issue not found! Please enter a valid ticket no.")
+    return render(request, 'MainApp/issue_status.html', {'issue': issue, 'ticket_number': ticket_number})
 
 
 def loginView(request):  # sourcery skip: last-if-guard
@@ -20,27 +80,15 @@ def loginView(request):  # sourcery skip: last-if-guard
             if not password:
                 messages.error(request, "Required Password")
                 return HttpResponseRedirect(reverse('login'))
-            if not CustomUsers.objects.filter(Q(email=email) | Q(phone=email)).exists():
-                messages.error(request, "Email of phone not found!")
+            if not UserModel.objects.filter(Q(email=email) | Q(username=email)).exists():
+                messages.error(request, "Email of username not found!")
                 return HttpResponseRedirect(reverse('login'))
-            user = Login.authenticate(request, email=email, password=password)
-            if user is None:
-                messages.error(request, "Invalid Password")
-                return HttpResponseRedirect(reverse('login'))
-            if not user.is_active:
-                messages.error(
-                    request, "Your account is disabled! please contact Admin.")
-                return HttpResponseRedirect(reverse('login'))
-            log_in(request, user)
-            if user.user_type == "Admin":
-                return HttpResponseRedirect(reverse('admin_dashboard'))
-            elif user.user_type == "Employee":
-                return HttpResponseRedirect(reverse("employee_dashboard"))
-            elif user.user_type == "Service_Engineer":
-                return HttpResponseRedirect(reverse("serviceengr_dashboard"))
+            user = UserModel.objects.get(Q(email=email) | Q(username=email))
+            if user.check_password(password):
+                log_in(request, user)
+                return HttpResponseRedirect(reverse('dashboard'))
             else:
-                messages.error(
-                    request, f"Unidentify user type: {user.user_type}")
+                messages.error(request, "Invalid Password")
                 return HttpResponseRedirect(reverse('login'))
         except Exception as e:
             messages.error(request, f"Server Error: {e}")
