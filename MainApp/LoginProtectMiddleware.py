@@ -11,5 +11,8 @@ class ProtectView(MiddlewareMixin):
         if user.is_authenticated:
             if modulename not in ['AdminApp.views', 'django.views.static']:
                 return HttpResponseRedirect(reverse("dashboard"))
-        elif modulename in ['MainApp.views', 'django.views.static']:
-            return HttpResponseRedirect(reverse("login"))
+        else:
+            if modulename in ['MainApp.views', 'django.views.static']:
+                pass
+            else:
+                return HttpResponseRedirect(reverse("login"))

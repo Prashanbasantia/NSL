@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import login as log_in
-from .auth_backend import Login
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.db import transaction
