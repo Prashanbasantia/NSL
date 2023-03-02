@@ -2,6 +2,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     {% url 'dashboard' as dashboard%}
     {% url 'manage_issues' as manage_issues%}
+    {% url 'issues_report' as issues_report%}
     <div class="app-brand demo">
         <a href="{{dashboard}}" class="app-brand-link">
             <span class="app-brand-logo demo">
@@ -70,6 +71,12 @@
             <a href="{{manage_issues}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-info-square"></i>
                 <div data-i18n="Analytics">Manage Issues</div>
+            </a>
+        </li>
+        <li class="menu-item {% if request.path == issues_report %}active{% endif%}">
+            <a href="{{issues_report}}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-report"></i>
+                <div data-i18n="Analytics">Issues Report</div>
             </a>
         </li>
     </ul>

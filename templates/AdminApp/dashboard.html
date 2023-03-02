@@ -22,28 +22,20 @@
             <div class="col-lg-3 col-md-6 col-6 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                            <span class="badge badge-center rounded-pill bg-label-primary">
-                                <i class='bx bx-info-circle'></i>
-                            </span>
-                            <span class="fw-semibold d-block mb-1">New Issue</span>
+                        <div class="card-title text-center">
+                            <span class="fw-semibold d-block mb-1 text-secondary">Unassigned</span>
                         </div>
-                        <h3 class="card-title text-center text-primary mb-2">{{new_issue}}</h3>
-                        <!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> -->
+                        <h3 class="card-title text-center text-secondary mb-2">{{unassigned_issue}}</h3>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-6 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                            <span class="badge badge-center rounded-pill bg-label-warning">
-                                <i class='bx bxs-info-square'></i>
-                            </span>
-                            <span class="fw-semibold d-block mb-1">Open Issue</span>
+                        <div class="card-title text-center">
+                            <span class="fw-semibold d-block mb-1 text-primary">Assigned Issue</span>
                         </div>
-                        <h3 class="card-title text-center mb-2 text-warning">{{open_issue}}</h3>
-                        <!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> -->
+                        <h3 class="card-title text-center mb-2 text-primary">{{assigned_issue}}</h3>
                     </div>
                 </div>
             </div>
@@ -51,14 +43,10 @@
             <div class="col-lg-3 col-md-6 col-6 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                            <span class="badge badge-center rounded-pill bg-label-success">
-                                <i class='bx bx-list-check'></i>
-                            </span>
-                            <span class="fw-semibold d-block mb-1">Closed Issue</span>
+                        <div class="card-title text-center">
+                            <span class="fw-semibold d-block mb-1 text-success">Completed Issue</span>
                         </div>
-                        <h3 class="card-title text-center mb-2 text-success">{{closed_issue}}</h3>
-                        <!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> -->
+                        <h3 class="card-title text-center mb-2 text-success">{{completed_issue}}</h3>
                     </div>
                 </div>
             </div>
@@ -66,13 +54,10 @@
             <div class="col-lg-3 col-md-6 col-6 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
-                            <span class="badge badge-center rounded-pill bg-label-secondary">
-                                <i class='bx bx-list-ul'></i>
-                            </span>
-                            <span class="fw-semibold d-block mb-1">Total Issue</span>
+                        <div class="card-title text-center">
+                            <span class="fw-semibold d-block text-danger mb-1">Rejected Issue</span>
                         </div>
-                        <h3 class="card-title text-center text-secondary mb-2">{{total_issue}}</h3>
+                        <h3 class="card-title text-center text-danger mb-2">{{rejected_issue}}</h3>
                         <!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> -->
                     </div>
                 </div>

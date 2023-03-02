@@ -12,9 +12,10 @@ ISSUE_TYPE_CHOICES = [
 ]
 
 COMPLAINT_STATUS_CHOICES = [
-    ('New', "NEW"),
-    ('Open', "OPEN"),
-    ('Closed', "CLOSED")
+    ('Unassigned', "UNASSIGNED"),
+    ('Assigned', "ASSIGNED"),
+    ('Rejected', "REJECTED"),
+    ('Completed', "COMPLETED")
 ]
 
 
@@ -37,6 +38,8 @@ class Issues(models.Model):
     assign_phone = models.CharField(max_length=10, null=True)
     issue_date = models.DateTimeField()
     resolved_date = models.DateTimeField(null=True)
+    rejected_date = models.DateTimeField(null=True)
+    rejected_reason = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
