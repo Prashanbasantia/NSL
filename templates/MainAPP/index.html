@@ -102,20 +102,7 @@
         form.classList.add('was-validated')
         validateForm()
     }, false)
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    // (function () {
-    //     'use strict'
-    //     var form = document.getElementById('issue_form')
-    //     form.addEventListener('submit', function (event) {
-    //         if (!form.checkValidity()) {
-    //             event.preventDefault()
-    //             event.stopPropagation()
-    //         }
-    //         form.classList.add('was-validated')
-    //     }, false)
-    // })()
-
-
+    
     function createErrorAlert(msg) {
         var alet = document.createElement('div');
         alet.className = 'alert alert-danger alert-dismissible';
@@ -133,6 +120,10 @@
     }
 
     function createModal(ticket_number) {
+        const existmodal =  document.getElementById('ticket_modal')
+        if (existmodal) {
+            existmodal.remove()
+        }
         var modal = document.createElement('div');
         modal.className = 'modal fade';
         modal.id = 'ticket_modal';

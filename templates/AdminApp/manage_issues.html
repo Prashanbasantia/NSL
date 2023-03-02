@@ -181,24 +181,24 @@
                                     <div class="fw-bold mb-2">Issue Status:</div>
 
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" name="status" onchange="handle_status('Assigned')" value="Assigned" type="radio"
+                                        <input class="form-check-input" name="status" onchange="handle_status('Assigned', '{{issue.id}}')" value="Assigned" type="radio"
                                             id="assigned" {%if issue.status == 'Unassigned' or  issue.status == 'Assigned' %} checked {%endif%} />
                                         <label class="form-check-label text-primary" for="assigned">Assigned</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" onchange="handle_status('Completed')" name="status" value="Completed" type="radio"
+                                        <input class="form-check-input" onchange="handle_status('Completed', '{{issue.id}}')" name="status" value="Completed" type="radio"
                                             id="completed" {%if issue.status == 'Completed' %} checked {%endif%}>
                                         <label class="form-check-label text-success" for="completed">Completed</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" onchange="handle_status('Rejected')" name="status" value="Rejected" type="radio"
+                                        <input class="form-check-input" onchange="handle_status('Rejected', '{{issue.id}}')" name="status" value="Rejected" type="radio"
                                             id="rejected" {%if issue.status == 'Rejected' %} checked {%endif%}>
                                         <label class="form-check-label text-danger" for="rejected">Rejected</label>
                                     </div>
 
-                                    <div class="col mt-2 mb-3 {% if issue.status != 'Rejected' %}d-none{% endif %}" id="rejected_reason_div">
-                                        <label for="rejected_reason" class="form-label">Rejected Reason</label>
-                                        <textarea  id="rejected_reason" rows="3" name="rejected_reason" 
+                                    <div class="col mt-2 mb-3 {% if issue.status != 'Rejected' %}d-none{% endif %}" id="rejected_reason_div{{issue.id}}">
+                                        <label for="rejected_reason{{issue.id}}" class="form-label">Rejected Reason</label>
+                                        <textarea  id="rejected_reason{{issue.id}}" rows="3" name="rejected_reason" 
                                         class="form-control" placeholder="Enter a rejected reason">{%if issue.rejected_reason %}{{issue.rejected_reason}}{% endif%}</textarea>
                                     </div>
                                 </div>
@@ -221,9 +221,9 @@
 {% endblock content %} {% block customjs %}
 <script>
 
-function handle_status(status) {
-  const div = document.getElementById("rejected_reason_div")
-  const textarea = document.getElementById("rejected_reason")
+function handle_status(status, issue_id) {
+  const div = document.getElementById(`rejected_reason_div${issue_id}`);
+  const textarea = document.getElementById(`rejected_reason${issue_id}`);
   if (status == "Rejected"){
     div.classList.remove('d-none')
     textarea.setAttribute('required', '');

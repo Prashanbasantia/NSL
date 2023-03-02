@@ -82,7 +82,7 @@
                           </div>
                         </div>
                         <div class="flex-grow-1">
-                          <span class="fw-semibold d-block">John Doe</span>
+                          <span class="fw-semibold d-block">{{request.user.first_name}} {{request.user.last_name}}</span>
                           <small class="text-muted">Admin</small>
                         </div>
                       </div>
@@ -92,7 +92,7 @@
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item cursor-pointer" data-bs-toggle="modal" data-bs-target="#user_profile">
                       <i class="bx bx-user me-2"></i>
                       <span class="align-middle">My Profile</span>
                     </a>
@@ -112,6 +112,53 @@
             </ul>
           </div>
         </nav>
+
+        <!-- view issue modal  -->
+        <div class="modal fade" id="user_profile" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel2">Profile</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="{% url 'change_name' %}">
+                      {% csrf_token %}
+                      <div class="modal-body">
+                          <ul class="mb-1">
+                              <li>
+                                  <span class="fw-light">Email.</span> :{{request.user.email}}
+                              </li>
+                              <li>
+                                  <span class="fw-light">username</span> :{{request.user.username}}
+                              </li>
+                          </ul>
+                          <div class="row">
+                              <div class="col mb-3">
+                                  <label for="assign_name" class="form-label">First Name</label>
+                                  <input type="text" id="first_name" name="first_name" class="form-control"
+                                      placeholder="Enter first name" value="{%if request.user.first_name %}{{request.user.first_name}}{% endif%}" required />
+                              </div>
+                          </div>
+                          <div class="row g-2">
+                              <div class="col mb-0">
+                                  <label class="form-label" for="last_name">Last Name</label>
+                                  <input type="text" class="form-control" id="last_name" value="{%if request.user.last_name %}{{request.user.last_name}}{% endif%}" name="last_name"
+                                      placeholder="Enter last name" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                          <button type="submit" class="btn btn-primary w-100">
+                              Change Name
+                          </button>
+                      </div>
+                  </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- end aview issue modal  -->
 
         <!-- / Navbar -->
 

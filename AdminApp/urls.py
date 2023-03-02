@@ -6,4 +6,6 @@ urlpatterns = [
     path('manage_issues', views.manageIssuesView, name="manage_issues"),
     path('issues_report', views.issuesReportView, name="issues_report"),
     path('update_issue_status', views.updateIssueStatusView, name="update_issue_status"),
+    path('issue_analytics', views.issueAnalyticsView, name="issue_analytics"),
+    path('change_name', views.changeNameView, name="change_name"),
 ]
