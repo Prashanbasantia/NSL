@@ -1,6 +1,4 @@
-{% extends 'AdminApp/base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'AdminApp/base.html' %} {% load static %} {% block content %}
 
 <div class="card">
     <div class="card-header d-flex d-flex-row d-flex-sm-column justify-content-between align-items-center">
@@ -21,7 +19,8 @@
             <tbody class="table-border-bottom-0">
                 {% for issue in issues %}
                 <tr>
-                    <td><span class="fw-bolder text-primary cursor-pointer" data-bs-toggle="offcanvas"
+                    <td>
+                        <span class="fw-bolder text-primary cursor-pointer" data-bs-toggle="offcanvas"
                             data-bs-target="#detail_issue{{issue.id}}"
                             aria-controls="offcanvasScroll">{{issue.ticket_no}}</span>
                     </td>
@@ -33,138 +32,193 @@
                     </td>
                     <td><span class="fw-normal">{{issue.issue_type}}</span></td>
                     <td>{{issue.issue_date}}</td>
-                    <td>{% if issue.assign_name and issue.assign_phone %}
-                        <div class="d-flex flex-column">
+                    <td>
+                        {% if issue.assign_name and issue.assign_phone %}
+                        <div class="d-flex flex-column cursor-pointer" data-bs-toggle="modal"
+                            data-bs-target="#assignEngr{{issue.id}}">
                             <span>{{issue.emp_name}}</span>
                             <small>{{issue.emp_email}}</small>
                         </div>
                         {% else %}
                         <button class="btn btn-xs btn-outline-secondary" data-bs-toggle="modal"
-                            data-bs-target="#assignEngr{{issue.id}}">Assign</button>
+                            data-bs-target="#assignEngr{{issue.id}}">
+                            Assign
+                        </button>
                         {% endif%}
                     </td>
-                    <td><button
+                    <td>
+                        <button data-bs-toggle="modal" data-bs-target="#updateIssueStautus{{issue.id}}"
                             class="btn btn-xs rounded-pill {%if issue.status == 'New' %}btn-outline-primary {% elif issue.status == 'Open' %}btn-outline-warning {%else%}btn-outline-success{%endif%}">
-                            {{issue.status}}</button>
+                            {{issue.status}}
+                        </button>
                     </td>
                 </tr>
                 <!-- view issue details modal  -->
-                <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+                <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1"
                     id="detail_issue{{issue.id}}" aria-labelledby="offcanvasScrollLabel">
                     <div class="offcanvas-header border-bottom">
-                        <h5 id="offcanvasScrollLabel" class="offcanvas-title">{{issue.ticket_no}}</h5>
+                        <h5 id="offcanvasScrollLabel" class="offcanvas-title">
+                            {{issue.ticket_no}}
+                        </h5>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body mx-0 flex-grow-0">
                         <ul class="mb-2">
                             <li class="my-1">
-                                <strong>Status</strong> : <span
+                                <strong>Status</strong> :
+                                <span
                                     class="badge rounded-pill {%if issue.status == 'New' %}bg-primary {% elif issue.status == 'Open' %}bg-warning {%else%}bg-success{%endif%}">
                                     {{issue.status}}</span>
                             </li>
                             <li class="my-1">
-                                <strong>Issue Type</strong> : <span class="fw-bold">{{issue.issue_type}}</span>
+                                <strong>Issue Type</strong> :
+                                <span class="fw-bold">{{issue.issue_type}}</span>
                             </li>
-                            <li class="my-1"><strong>Issue Date</strong> : {{issue.issue_date}}</li>
+                            <li class="my-1">
+                                <strong>Issue Date</strong> : {{issue.issue_date}}
+                            </li>
                             {% if issue.resolved_date %}
-                            <li class="my-1"><strong>Resolved date</strong> :
-                                {{issue.resolved_date}}
+                            <li class="my-1">
+                                <strong>Resolved date</strong> : {{issue.resolved_date}}
                             </li>
-                            {% endif%}
-                            {% if issue.assign_name and issue.assign_phone %}
-                            <li class="my-1"><strong>Service Engr.</strong> :
+                            {% endif%} {% if issue.assign_name and issue.assign_phone %}
+                            <li class="my-1">
+                                <strong>Service Engr.</strong> :
                                 {{issue.assign_name}}<small>({{issue.assign_phone}})</small>
                             </li>
                             {% endif%}
-                            <li class="my-1"><strong>Location</strong> : {{issue.location}}</li>
-                            <li class="my-1"><strong>Description</strong> : {{issue.description}}</li>
+                            <li class="my-1">
+                                <strong>Location</strong> : {{issue.location}}
+                            </li>
+                            <li class="my-1">
+                                <strong>Description</strong> : {{issue.description}}
+                            </li>
                         </ul>
 
                         <ul class="border-top">
                             <li class="my-1"><strong>Name</strong> : {{issue.emp_name}}</li>
                             <li class="my-1"><strong>Email</strong> : {{issue.emp_email}}</li>
                             <li class="my-1"><strong>Phone</strong> : {{issue.emp_phone}}</li>
-                            <li class="my-1"><strong>Employee Id</strong> : {{issue.emp_empid}}</li>
-                            <li class="my-1"><strong>Designation</strong> : {{issue.emp_designation}}</li>
-                            <li class="my-1"><strong>Department</strong> : {{issue.emp_department}}</li>
+                            <li class="my-1">
+                                <strong>Employee Id</strong> : {{issue.emp_empid}}
+                            </li>
+                            <li class="my-1">
+                                <strong>Designation</strong> : {{issue.emp_designation}}
+                            </li>
+                            <li class="my-1">
+                                <strong>Department</strong> : {{issue.emp_department}}
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <!-- view issue details modal -->
 
                 <!-- assign service engr modal  -->
-                <!-- Small Modal -->
                 <div class="modal fade" id="assignEngr{{issue.id}}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-sm" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel2">Assign Service Engineer</h5>
+                                <h5 class="modal-title" id="exampleModalLabel2">
+                                    Assign Service Engineer
+                                </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form method="POST">
+                            <form method="POST" action="{{manage_issues}}">
                                 {% csrf_token %}
                                 <div class="modal-body">
                                     <ul class="mb-1">
-                                        <li><span class="fw-light">Ticket No.</span> : {{issue.ticket_no}}</li>
-                                        <li><span class="fw-light">Employee ID</span> : {{issue.emp_empid}}</li>
+                                        <li>
+                                            <span class="fw-light">Ticket No.</span> :
+                                            {{issue.ticket_no}}
+                                        </li>
+                                        <li>
+                                            <span class="fw-light">Employee ID</span> :
+                                            {{issue.emp_empid}}
+                                        </li>
                                     </ul>
+                                    <input type="hidden" name="issue_id" value="{{issue.id}}" />
                                     <div class="row">
                                         <div class="col mb-3">
                                             <label for="assign_name" class="form-label">Name</label>
-                                            <input type="text" id="assign_name" class="form-control"
-                                                placeholder="Enter Service Engr. Name" required />
+                                            <input type="text" id="assign_name" name="assign_name" class="form-control"
+                                                placeholder="Enter Service Engr. Name" value="{%if issue.assign_name %}{{issue.assign_name}}{% endif%}" required />
                                         </div>
                                     </div>
                                     <div class="row g-2">
                                         <div class="col mb-0">
                                             <label class="form-label" for="assign_phone">Phone</label>
-                                            <input type="text" class="form-control" id="assign_phone"
+                                            <input type="text" class="form-control" id="assign_phone" value="{%if issue.assign_phone %}{{issue.assign_phone}}{% endif%}" name="assign_phone"
                                                 placeholder="Enter Service Engr. Phone" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-primary w-100">Assign</button>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        Assign
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <!-- end assign service engr modal  -->
+
+                <!-- issues status update modal  -->
+                <div class="modal fade" id="updateIssueStautus{{issue.id}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel2">
+                                    Update Issue Status
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="{% url 'update_issue_status' %}">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <ul class="mb-3">
+                                        <li>
+                                            <span class="fw-light">Ticket No.</span> :
+                                            {{issue.ticket_no}}
+                                        </li>
+                                        <li>
+                                            <span class="fw-light">Employee ID</span> :
+                                            {{issue.emp_empid}}
+                                        </li>
+                                    </ul>
+                                    <input type="hidden" name="issue_id" value="{{issue.id}}" />
+                                    <div class="fw-bold mb-2">Issue Status:</div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" name="status" value="Open" type="radio"
+                                            id="open" {%if issue.status != 'Closed' %} checked {%endif%} />
+                                        <label class="form-check-label" for="open">Open</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" name="status" value="Closed" type="radio"
+                                            id="closed" {%if issue.status == 'Closed' %} checked {%endif%}>
+                                        <label class="form-check-label" for="closed">Closed</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        Update
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- issues status update modal  -->
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 
-
-{% endblock content %}
-
-{% block customjs %}
+{% endblock content %} {% block customjs %}
 <script>
-    const email = document.getElementById("email");
-    const phone = document.getElementById("phone");
-    const password = document.getElementById("password");
-
-    email.addEventListener("input", updatePass);
-    phone.addEventListener("input", updatePass);
-
-    function updatePass(e) {
-        let emailval = ''
-        let phoneval = ''
-        if (e.target.name === "phone") {
-            emailval = email.value
-            phoneval = e.target.value;
-        } else {
-            emailval = e.target.value;
-            phoneval = phone.value
-        }
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailval)) {
-            const newpassemail = emailval.split('@')[0]
-            password.value = newpassemail + '@' + phoneval
-        }
-    }
 </script>
 {% endblock customjs %}
