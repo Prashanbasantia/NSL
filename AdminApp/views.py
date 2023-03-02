@@ -23,6 +23,11 @@ def dashboardView(request):
                 closed_issue=(Count('id', filter=Q(status="Closed"))),
                 today_raised=(Count('id', filter=Q(status="New", issue_date__date = today))),
                 today_resolved=(Count('id', filter=Q(status="Closed", resolved_date__date = today))),
+                computer_issue=(Count('id', filter=Q(issue_type="Computer"))),
+                network_issue=(Count('id', filter=Q(issue_type="Network"))),
+                printer_issue=(Count('id', filter=Q(issue_type="Printer"))),
+                software_issue=(Count('id', filter=Q(issue_type="Software"))),
+                other_issue=(Count('id', filter=Q(issue_type="Other"))),
                 )
     issues['total_issue'] = issues['new_issue'] + issues['open_issue'] + issues['closed_issue'] 
     return render(request, 'AdminApp/dashboard.html',issues)

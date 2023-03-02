@@ -36,8 +36,8 @@
                         {% if issue.assign_name and issue.assign_phone %}
                         <div class="d-flex flex-column cursor-pointer" data-bs-toggle="modal"
                             data-bs-target="#assignEngr{{issue.id}}">
-                            <span>{{issue.emp_name}}</span>
-                            <small>{{issue.emp_email}}</small>
+                            <span>{{issue.assign_name}}</span>
+                            <small>{{issue.assign_phone}}</small>
                         </div>
                         {% else %}
                         <button class="btn btn-xs btn-outline-secondary" data-bs-toggle="modal"
