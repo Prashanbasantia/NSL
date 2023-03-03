@@ -9,7 +9,6 @@
         <form name="issue_form" id="issue_form" class="issue_form" onsubmit="return false;" novalidate>
             <div class="row">
                 <div id="error_msg"></div>
-                <h5>Employee Details</h5>
                 <div class="mb-3 col-md-6">
                     <label class="form-label" for="name">Full Name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter Full Name"
@@ -18,9 +17,8 @@
                 </div>
 
                 <div class="mb-3 col-md-6">
-                    <label class="form-label" for="email">Email</label>
-                    <input type="text" id="email" name="email" class="form-control" placeholder="Enter Email"
-                        required />
+                    <label class="form-label" for="email">Email <small class="text-lowercase">(optional)</small></label>
+                    <input type="text" id="email" name="email" class="form-control" placeholder="Enter Email" />
                     <div class="invalid-feedback">Please your email.</div>
                 </div>
 
@@ -31,12 +29,6 @@
                     <div class="invalid-feedback">Please enter phone number.</div>
                 </div>
 
-                <div class="mb-3 col-md-6">
-                    <label class="form-label" for="empid">Employee ID</label>
-                    <input type="text" class="form-control" id="empid" name="empid" placeholder="Enter Employee ID"
-                        required />
-                    <div class="invalid-feedback">Please enter employee Id.</div>
-                </div>
 
                 <div class="mb-3 col-md-6">
                     <label class="form-label" for="designation">Designation</label>
@@ -46,20 +38,22 @@
                 </div>
 
                 <div class="mb-3 col-md-6">
-                    <label class="form-label" for="department">Department</label>
-                    <input type="text" class="form-control" id="department" name="department"
-                        placeholder="Enter Department" required />
-                    <div class="invalid-feedback">Please enter department.</div>
+                    <label class="form-label" for="organization">Organization</label>
+                    <select name="organization" id="organization" class="select2 form-select" required>
+                        <option selected disabled value="">Select Organization</option>
+                        <option value="NSL">NSL</option>
+                        <option value="Mencon">Mecon</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="invalid-feedback">Please select organization.</div>
                 </div>
-            </div>
 
-            <div class="row">
-                <h5>Issue Details</h5>
                 <div class="mb-3 col-md-6">
                     <label for="issue_type" class="form-label">Issue Type</label>
                     <select name="issue_type" id="issue_type" class="select2 form-select" required>
                         <option selected disabled value="">Select Issue Type</option>
                         <option value="Computer">Computer</option>
+                        <option value="Email">Emial</option>
                         <option value="Network">Network</option>
                         <option value="Printer">Printer</option>
                         <option value="Software">Software</option>
@@ -69,17 +63,19 @@
                 </div>
 
                 <div class="mb-3 col-md-6">
+                    <label class="form-label" for="location">Issue Description</label>
+                    <textarea class="form-control" id="description" placeholder="Enter Issue Description"
+                        name="description" rows="1" required></textarea>
+                    <div class="invalid-feedback">Please enter description.</div>
+                </div>
+
+                <div class="mb-3 col-md-6">
                     <label class="form-label" for="location">Location</label>
                     <input type="text" class="form-control" id="location" name="location" placeholder="Enter Location"
                         required />
                     <div class="invalid-feedback">Please enter location.</div>
                 </div>
-                <div class="mb-3 col-md-12">
-                    <label class="form-label" for="location">Issue Description</label>
-                    <textarea class="form-control" id="description" placeholder="Enter Description" name="description"
-                        rows="2" required></textarea>
-                    <div class="invalid-feedback">Please enter description.</div>
-                </div>
+
             </div>
 
             <center>
@@ -102,7 +98,7 @@
         form.classList.add('was-validated')
         validateForm()
     }, false)
-    
+
     function createErrorAlert(msg) {
         var alet = document.createElement('div');
         alet.className = 'alert alert-danger alert-dismissible';
@@ -120,7 +116,7 @@
     }
 
     function createModal(ticket_number) {
-        const existmodal =  document.getElementById('ticket_modal')
+        const existmodal = document.getElementById('ticket_modal')
         if (existmodal) {
             existmodal.remove()
         }
@@ -180,9 +176,8 @@
         const name = document.forms["issue_form"]["name"];
         const phone = document.forms["issue_form"]["phone"];
         const email = document.forms["issue_form"]["email"];
-        const empid = document.forms["issue_form"]["empid"];
         const designation = document.forms["issue_form"]["designation"];
-        const department = document.forms["issue_form"]["department"];
+        const organization = document.forms["issue_form"]["organization"];
         const issue_type = document.forms["issue_form"]["issue_type"];
         const location = document.forms["issue_form"]["location"];
         const description = document.forms["issue_form"]["description"];
@@ -191,24 +186,16 @@
             name.focus()
             return false;
         }
-        if (email.value == "") {
-            email.focus()
-            return false;
-        }
         if (phone.value == "") {
             phone.focus()
-            return false;
-        }
-        if (empid.value == "") {
-            empid.focus()
             return false;
         }
         if (designation.value == "") {
             designation.focus()
             return false;
         }
-        if (department.value == "") {
-            department.focus()
+        if (organization.value == "") {
+            organization.focus()
             return false;
         }
         if (issue_type.value == "") {
@@ -227,9 +214,8 @@
             name: name.value.trim(),
             email: email.value.trim(),
             phone: phone.value.trim(),
-            empid: empid.value.trim(),
             designation: designation.value.trim(),
-            department: department.value.trim(),
+            organization: organization.value.trim(),
             issue_type: issue_type.value.trim(),
             location: location.value.trim(),
             description: description.value.trim()
@@ -270,6 +256,3 @@
 </script>
 
 {% endblock customjs %}
-
-{'name': 'ertyu', 'email': 'retyu', 'phone': 'retyu', 'empid': 'retyu', 'designation': 'retyu', 'department': 'rtyu',
-'issue_type': 'Printer', 'location': 'tdrui', 'description': 'rtyui'}

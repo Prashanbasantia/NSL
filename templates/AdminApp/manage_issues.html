@@ -20,14 +20,13 @@
                 {% for issue in issues %}
                 <tr>
                     <td>
-                        <span class="fw-bolder text-primary cursor-pointer"
-                            data-bs-target="#view_issue{{issue.id}}"
+                        <span class="fw-bolder text-primary cursor-pointer" data-bs-target="#view_issue{{issue.id}}"
                             data-bs-toggle="modal">{{issue.ticket_no}}</span>
                     </td>
                     <td>
                         <div class="d-flex flex-column">
                             <span>{{issue.emp_name}}</span>
-                            <small>{{issue.emp_email}}</small>
+                            <small>{{issue.emp_phone}}</small>
                         </div>
                     </td>
                     <td><span class="fw-normal">{{issue.issue_type}}</span></td>
@@ -62,46 +61,50 @@
                                 <h5 class="modal-title" id="exampleModalLabel2">
                                     {{issue.ticket_no}}
                                 </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
 
                             <div class="modal-body">
                                 <ul>
                                     <li><strong>Issue Status</strong> : <span
-                                        class="badge rounded-pill {%if issue.status == 'Unassigned' %}bg-secondary {% elif issue.status == 'Assigned' %}bg-primary{% elif issue.status == 'Completed' %}bg-success {%else%}bg-danger{%endif%}">
-                                        {{issue.status}}</span>
+                                            class="badge rounded-pill {%if issue.status == 'Unassigned' %}bg-secondary {% elif issue.status == 'Assigned' %}bg-primary{% elif issue.status == 'Completed' %}bg-success {%else%}bg-danger{%endif%}">
+                                            {{issue.status}}</span>
                                     </li>
-                                    <li><strong>Issue Type</strong> : <span class="fw-semibold text-primary">{{issue.issue_type}}</span>
+                                    <li><strong>Issue Type</strong> : <span
+                                            class="fw-semibold text-primary">{{issue.issue_type}}</span>
                                     </li>
                                     <li><strong>Issue Date</strong> : {{issue.issue_date}}</li>
                                     {% if issue.resolved_date %}
-                                    <li><strong>Resolved date</strong> :{{issue.resolved_date}}</li> 
+                                    <li><strong>Resolved date</strong> :{{issue.resolved_date}}</li>
                                     {% elif issue.rejected_date %}
-                                    <li><strong>Rejected date</strong> :{{issue.rejected_date}}</li> 
-                                    <li><strong>Reason</strong> :{{issue.rejected_reason}}</li> 
+                                    <li><strong>Rejected date</strong> :{{issue.rejected_date}}</li>
+                                    <li><strong>Reason</strong> :{{issue.rejected_reason}}</li>
                                     {% endif%}
                                     {% if issue.assign_name and issue.assign_phone %}
                                     <li><strong>Service Engr.</strong> :{{issue.assign_name}}
-                                        <small class="ms-1 font-monospace"> <i class="bx bx-phone text-info me-1"></i>{{issue.assign_phone}}</small>
-                                    </li> 
+                                        <small class="ms-1 font-monospace"> <i
+                                                class="bx bx-phone text-info me-1"></i>{{issue.assign_phone}}</small>
+                                    </li>
                                     {% endif%}
                                     <li><strong>Location</strong> : {{issue.location}}</li>
                                     <li><strong>Description</strong> : {{issue.description}}</li>
                                 </ul>
                                 <ul class="border-top pt-2">
                                     <li><strong>Name</strong> : {{issue.emp_name}}</li>
-                                    <li><strong>Email</strong> : {{issue.emp_email}}</li>
                                     <li><strong>Phone</strong> : {{issue.emp_phone}}</li>
-                                    <li><strong>Employee Id</strong> : {{issue.emp_empid}}</li>
+                                    {%if issue.emp_email %}
+                                    <li><strong>Email</strong> : {{issue.emp_email}}</li>
+                                    {% endif %}
                                     <li><strong>Designation</strong> : {{issue.emp_designation}}</li>
-                                    <li><strong>Department</strong> : {{issue.emp_department}}</li>
-                                </ul> 
+                                    <li><strong>Organization</strong> : {{issue.emp_organization}}</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- end aview issue modal  -->
-                
+
                 <!-- assign service engr modal  -->
                 <div class="modal fade" id="assignEngr{{issue.id}}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-sm" role="document">
@@ -131,14 +134,17 @@
                                         <div class="col mb-3">
                                             <label for="assign_name" class="form-label">Name</label>
                                             <input type="text" id="assign_name" name="assign_name" class="form-control"
-                                                placeholder="Enter Service Engr. Name" value="{%if issue.assign_name %}{{issue.assign_name}}{% endif%}" required />
+                                                placeholder="Enter Service Engr. Name"
+                                                value="{%if issue.assign_name %}{{issue.assign_name}}{% endif%}"
+                                                required />
                                         </div>
                                     </div>
                                     <div class="row g-2">
                                         <div class="col mb-0">
                                             <label class="form-label" for="assign_phone">Phone</label>
-                                            <input type="text" class="form-control" id="assign_phone" value="{%if issue.assign_phone %}{{issue.assign_phone}}{% endif%}" name="assign_phone"
-                                                placeholder="Enter Service Engr. Phone" />
+                                            <input type="text" class="form-control" id="assign_phone"
+                                                value="{%if issue.assign_phone %}{{issue.assign_phone}}{% endif%}"
+                                                name="assign_phone" placeholder="Enter Service Engr. Phone" />
                                         </div>
                                     </div>
                                 </div>
@@ -181,25 +187,31 @@
                                     <div class="fw-bold mb-2">Issue Status:</div>
 
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" name="status" onchange="handle_status('Assigned', '{{issue.id}}')" value="Assigned" type="radio"
-                                            id="assigned" {%if issue.status == 'Unassigned' or  issue.status == 'Assigned' %} checked {%endif%} />
+                                        <input class="form-check-input" name="status"
+                                            onchange="handle_status('Assigned', '{{issue.id}}')" value="Assigned"
+                                            type="radio" id="assigned" {%if issue.status == 'Unassigned' or issue.status == 'Assigned' %} checked {%endif%} />
                                         <label class="form-check-label text-primary" for="assigned">Assigned</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" onchange="handle_status('Completed', '{{issue.id}}')" name="status" value="Completed" type="radio"
-                                            id="completed" {%if issue.status == 'Completed' %} checked {%endif%}>
+                                        <input class="form-check-input"
+                                            onchange="handle_status('Completed', '{{issue.id}}')" name="status"
+                                            value="Completed" type="radio" id="completed" {%if issue.status == 'Completed' %} checked {%endif%}>
                                         <label class="form-check-label text-success" for="completed">Completed</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" onchange="handle_status('Rejected', '{{issue.id}}')" name="status" value="Rejected" type="radio"
-                                            id="rejected" {%if issue.status == 'Rejected' %} checked {%endif%}>
+                                        <input class="form-check-input"
+                                            onchange="handle_status('Rejected', '{{issue.id}}')" name="status"
+                                            value="Rejected" type="radio" id="rejected" {%if issue.status == 'Rejected' %} checked {%endif%}>
                                         <label class="form-check-label text-danger" for="rejected">Rejected</label>
                                     </div>
 
-                                    <div class="col mt-2 mb-3 {% if issue.status != 'Rejected' %}d-none{% endif %}" id="rejected_reason_div{{issue.id}}">
-                                        <label for="rejected_reason{{issue.id}}" class="form-label">Rejected Reason</label>
-                                        <textarea  id="rejected_reason{{issue.id}}" rows="3" name="rejected_reason" 
-                                        class="form-control" placeholder="Enter a rejected reason">{%if issue.rejected_reason %}{{issue.rejected_reason}}{% endif%}</textarea>
+                                    <div class="col mt-2 mb-3 {% if issue.status != 'Rejected' %}d-none{% endif %}"
+                                        id="rejected_reason_div{{issue.id}}">
+                                        <label for="rejected_reason{{issue.id}}" class="form-label">Rejected
+                                            Reason</label>
+                                        <textarea id="rejected_reason{{issue.id}}" rows="3" name="rejected_reason"
+                                            class="form-control"
+                                            placeholder="Enter a rejected reason">{%if issue.rejected_reason %}{{issue.rejected_reason}}{% endif%}</textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center">
@@ -221,16 +233,16 @@
 {% endblock content %} {% block customjs %}
 <script>
 
-function handle_status(status, issue_id) {
-  const div = document.getElementById(`rejected_reason_div${issue_id}`);
-  const textarea = document.getElementById(`rejected_reason${issue_id}`);
-  if (status == "Rejected"){
-    div.classList.remove('d-none')
-    textarea.setAttribute('required', '');
-  } else {
-    div.classList.add('d-none')
-    textarea.removeAttribute('required')
-  }
-}
+    function handle_status(status, issue_id) {
+        const div = document.getElementById(`rejected_reason_div${issue_id}`);
+        const textarea = document.getElementById(`rejected_reason${issue_id}`);
+        if (status == "Rejected") {
+            div.classList.remove('d-none')
+            textarea.setAttribute('required', '');
+        } else {
+            div.classList.add('d-none')
+            textarea.removeAttribute('required')
+        }
+    }
 </script>
 {% endblock customjs %}

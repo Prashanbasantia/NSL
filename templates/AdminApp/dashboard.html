@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="col-lg-8 col-md-4 order-1">
+    <div class="col-lg-8 col-md-6 order-1">
         <div class="row">
             <div class="col-lg-3 col-md-6 col-6 mb-4">
                 <div class="card">
@@ -69,16 +69,6 @@
 
 <div class="row">
     <div class="col-lg-2 col-md-6 col-6 mb-4">
-        <div class="card p-0">
-            <div class="card-body p-0">
-                <div class="d-flex justify-content-center align-items-center" id="issue_type_chart">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-2 col-md-6 col-6 mb-4">
         <div class="card">
             <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
@@ -86,6 +76,17 @@
                     <span class="fw-semibold d-block mb-1">Computer</span>
                 </div>
                 <h3 class="card-title text-center text-success mb-2">{{computer_issue}}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-6 col-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-start justify-content-between">
+                    <i class='bx bx-envelope bx-sm text-primary'></i>
+                    <span class="fw-semibold d-block mb-1">Email</span>
+                </div>
+                <h3 class="card-title text-center text-primary mb-2">{{email_issue}}</h3>
             </div>
         </div>
     </div>
@@ -173,80 +174,80 @@
     const borderColor = "#eaeaea";
     const shadeColor = "#697a8d";
     const axisColor = "#71dd37";
-    const computer = Number('{{computer_issue}}');
-    const network = Number('{{network_issue}}');
-    const printer = Number('{{printer_issue}}');
-    const software = Number('{{software_issue}}');
-    const other = Number('{{other_issue}}');
-    const total = computer + network + printer + software + other
-    const percen = (num) => {
-        return Math.floor((num / total) * 100)
-    }
-    const options = {
-        chart: {
-            height: 150,
-            width: 130,
-            type: 'donut'
-        },
-        labels: ['Computer', 'Network', 'Printer', 'software', 'Other'],
-        series: [percen(computer), percen(network), percen(printer), percen(software), percen(other)],
-        colors: ["#71dd37", "#ff3e1d", "#ffab00", "#03c3ec", "#8592a3"],
-        stroke: {
-            width: 5,
-            colors: cardColor
-        },
-        dataLabels: {
-            enabled: false,
-            formatter: function (val, opt) {
-                return parseInt(val) + '%';
-            }
-        },
-        legend: {
-            show: false
-        },
-        grid: {
-            padding: {
-                top: 0,
-                bottom: 0,
-                right: 15
-            }
-        },
-        plotOptions: {
-            pie: {
-                donut: {
-                    size: '75%',
-                    labels: {
-                        show: true,
-                        value: {
-                            fontSize: '1.5rem',
-                            fontFamily: 'Public Sans',
-                            color: headingColor,
-                            offsetY: -15,
-                            formatter: function (val) {
-                                return parseInt(val) + '%';
-                            }
-                        },
-                        name: {
-                            offsetY: 20,
-                            fontFamily: 'Public Sans'
-                        },
-                        total: {
-                            show: true,
-                            fontSize: '0.8125rem',
-                            color: axisColor,
-                            label: 'Computer',
-                            formatter: function (w) {
-                                return `${percen(computer)}%`;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
+    // const computer = Number('{{computer_issue}}');
+    // const network = Number('{{network_issue}}');
+    // const printer = Number('{{printer_issue}}');
+    // const software = Number('{{software_issue}}');
+    // const other = Number('{{other_issue}}');
+    // const total = computer + network + printer + software + other
+    // const percen = (num) => {
+    //     return Math.floor((num / total) * 100)
+    // }
+    // const options = {
+    //     chart: {
+    //         height: 150,
+    //         width: 130,
+    //         type: 'donut'
+    //     },
+    //     labels: ['Computer', 'Network', 'Printer', 'software', 'Other'],
+    //     series: [percen(computer), percen(network), percen(printer), percen(software), percen(other)],
+    //     colors: ["#71dd37", "#ff3e1d", "#ffab00", "#03c3ec", "#8592a3"],
+    //     stroke: {
+    //         width: 5,
+    //         colors: cardColor
+    //     },
+    //     dataLabels: {
+    //         enabled: false,
+    //         formatter: function (val, opt) {
+    //             return parseInt(val) + '%';
+    //         }
+    //     },
+    //     legend: {
+    //         show: false
+    //     },
+    //     grid: {
+    //         padding: {
+    //             top: 0,
+    //             bottom: 0,
+    //             right: 15
+    //         }
+    //     },
+    //     plotOptions: {
+    //         pie: {
+    //             donut: {
+    //                 size: '75%',
+    //                 labels: {
+    //                     show: true,
+    //                     value: {
+    //                         fontSize: '1.5rem',
+    //                         fontFamily: 'Public Sans',
+    //                         color: headingColor,
+    //                         offsetY: -15,
+    //                         formatter: function (val) {
+    //                             return parseInt(val) + '%';
+    //                         }
+    //                     },
+    //                     name: {
+    //                         offsetY: 20,
+    //                         fontFamily: 'Public Sans'
+    //                     },
+    //                     total: {
+    //                         show: true,
+    //                         fontSize: '0.8125rem',
+    //                         color: axisColor,
+    //                         label: 'Computer',
+    //                         formatter: function (w) {
+    //                             return `${percen(computer)}%`;
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // };
 
-    var chart = new ApexCharts(document.querySelector("#issue_type_chart"), options);
-    chart.render();
+    // var chart = new ApexCharts(document.querySelector("#issue_type_chart"), options);
+    // chart.render();
 
     document.addEventListener("DOMContentLoaded", function () {
         // code to be executed when the DOM is ready
@@ -263,7 +264,7 @@
                 const resp_data = resp.data
                 const canvas_status = document.getElementById("issue_status_canvas");
                 const canvas_type = document.getElementById("issue_type_canvas");
-                const type_color = ["#71dd37", "#ff3e1d", "#ffab00", "#03c3ec", "#8592a3"];
+                const type_color = ["#71dd37", "#696cff", "#ff3e1d", "#ffab00", "#03c3ec", "#8592a3"];
                 const status_color = ["#8592a3", "#696cff", "#71dd37", "#ff3e1d"];
                 const labels = resp_data.labels
                 const type_series = resp_data.issues_type_series

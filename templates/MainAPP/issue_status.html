@@ -23,34 +23,37 @@
                 </div>
 
                 <div class="row px-md-5">
-                        <ul>
-                            <li><strong>Issue Type</strong> : <span class="fw-semibold text-primary">{{issue.issue_type}}</span>
-                            </li>
-                            <li><strong>Issue Date</strong> : {{issue.issue_date}}</li>
-                            {% if issue.resolved_date %}
-                            <li><strong>Resolved date</strong> :{{issue.resolved_date}}</li> 
-                            {% elif issue.rejected_date %}
-                            <li><strong>Rejected date</strong> :{{issue.rejected_date}}</li> 
-                            <li><strong>Reason</strong> :{{issue.rejected_reason}}</li> 
-                            {% endif%}
-                            {% if issue.assign_name and issue.assign_phone %}
-                            <li><strong>Service Engr.</strong> :{{issue.assign_name}}
-                                <small class="ms-1 font-monospace"> <i class="bx bx-phone text-info me-1"></i>{{issue.assign_phone}}</small>
-                            </li> 
-                            {% endif%}
-                            <li><strong>Location</strong> : {{issue.location}}</li>
-                            <li><strong>Description</strong> : {{issue.description}}</li>
-                        </ul>
-                        <ul class="border-top pt-2">
-                            <li><strong>Name</strong> : {{issue.emp_name}}</li>
-                            <li><strong>Email</strong> : {{issue.emp_email}}</li>
-                            <li><strong>Phone</strong> : {{issue.emp_phone}}</li>
-                            <li><strong>Employee Id</strong> : {{issue.emp_empid}}</li>
-                            <li><strong>Designation</strong> : {{issue.emp_designation}}</li>
-                            <li><strong>Department</strong> : {{issue.emp_department}}</li>
-                        </ul>
+                    <ul>
+                        <li><strong>Issue Type</strong> : <span
+                                class="fw-semibold text-primary">{{issue.issue_type}}</span>
+                        </li>
+                        <li><strong>Issue Date</strong> : {{issue.issue_date}}</li>
+                        {% if issue.resolved_date %}
+                        <li><strong>Resolved date</strong> :{{issue.resolved_date}}</li>
+                        {% elif issue.rejected_date %}
+                        <li><strong>Rejected date</strong> :{{issue.rejected_date}}</li>
+                        <li><strong>Reason</strong> :{{issue.rejected_reason}}</li>
+                        {% endif%}
+                        {% if issue.assign_name and issue.assign_phone %}
+                        <li><strong>Service Engr.</strong> :{{issue.assign_name}}
+                            <small class="ms-1 font-monospace"> <i
+                                    class="bx bx-phone text-info me-1"></i>{{issue.assign_phone}}</small>
+                        </li>
+                        {% endif%}
+                        <li><strong>Location</strong> : {{issue.location}}</li>
+                        <li><strong>Description</strong> : {{issue.description}}</li>
+                    </ul>
+                    <ul class="border-top pt-2">
+                        <li><strong>Name</strong> : {{issue.emp_name}}</li>
+                        <li><strong>Phone</strong> : {{issue.emp_phone}}</li>
+                        {%if issue.emp_email %}
+                        <li><strong>Email</strong> : {{issue.emp_email}}</li>
+                        {% endif %}
+                        <li><strong>Designation</strong> : {{issue.emp_designation}}</li>
+                        <li><strong>Organization</strong> : {{issue.emp_organization}}</li>
+                    </ul>
                 </div>
-                
+
                 {% else %}
                 <form id="formAccountSettings" method="GET" action="{% url 'status'%}">
                     <div class="mb-3">

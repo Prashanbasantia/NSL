@@ -12,7 +12,9 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from .utils import Syserror
 UserModel = get_user_model()
-ISSUE_TYPE_CHOICES = ['Printer', 'Network', 'Computer', 'Software', 'Other']
+ISSUE_TYPE_CHOICES = ['Printer', 'Network',
+                      'Computer', 'Software', 'Email', 'Other']
+ORG_CHOICES = ['NSL', 'Mecon' 'Other']
 
 
 def indexView(request):  # sourcery skip: last-if-guard
@@ -26,26 +28,28 @@ def raised_issue(request):
         return JsonResponse(resp_data)
     try:
         data = json.loads(request.body)
+        print("data", data)
         email = data.get("email", None)
         name = data.get("name", None)
         phone = data.get("phone", None)
-        empid = data.get("empid", None)
+        organization = data.get("organization", None)
         designation = data.get("designation", None)
-        department = data.get("department", None)
         issue_type = data.get("issue_type", None)
         location = data.get("location", None)
         description = data.get("description", None)
-        if not all([email, name, phone, empid, designation,
-                    department, issue_type, location, description]):
+        if not all([name, phone, organization, designation, issue_type, location, description]):
             resp_data = {"success": False, "message": "Required All Field"}
             return JsonResponse(resp_data)
+        if organization not in ORG_CHOICES:
+            resp_data = {"success": False, "message": "Invalid Organization"}
+
         if issue_type not in ISSUE_TYPE_CHOICES:
             resp_data = {"success": False, "message": "Invalid issue type"}
             return JsonResponse(resp_data)
         with transaction.atomic():
             issue = Issues.objects.create(
-                emp_name=name, emp_email=email, emp_phone=phone, emp_designation=designation,
-                emp_department=department, emp_empid=empid, location=location, issue_type=issue_type,
+                emp_name=name, emp_email=email, emp_phone=phone, emp_organization=organization,
+                emp_designation=designation, location=location, issue_type=issue_type,
                 description=description, issue_date=datetime.now())
             resp_data = {"success": True, "message": "Issue raised successfully",
                          "ticket_number": issue.ticket_no}

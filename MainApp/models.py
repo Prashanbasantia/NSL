@@ -8,6 +8,7 @@ ISSUE_TYPE_CHOICES = [
     ('Network', "NETWORK"),
     ('Computer', "COMPUTER"),
     ('Software', "SOFTWARE"),
+    ('Email', "EMAIL"),
     ('Other', "OTHER")
 ]
 
@@ -18,6 +19,12 @@ COMPLAINT_STATUS_CHOICES = [
     ('Completed', "COMPLETED")
 ]
 
+ORG_TYPE_CHOICES = [
+    ('NSL', "SNL"),
+    ('Mecon', "MECON"),
+    ('Other', "Other")
+]
+
 
 class Issues(models.Model):
     id = models.CharField(editable=False, primary_key=True, max_length=255)
@@ -26,12 +33,12 @@ class Issues(models.Model):
     status = models.CharField(
         default=COMPLAINT_STATUS_CHOICES[0][0], choices=COMPLAINT_STATUS_CHOICES, max_length=15)
     ticket_no = models.CharField(max_length=50)
-    emp_email = models.EmailField(_('email address'))
+    emp_email = models.EmailField(_('email address'), null=True)
     emp_name = models.CharField(max_length=50)
     emp_phone = models.CharField(max_length=10)
-    emp_designation = models.CharField(max_length=50)
-    emp_department = models.CharField(max_length=50)
-    emp_empid = models.CharField(max_length=20)
+    emp_designation = models.CharField(max_length=100)
+    emp_organization = models.CharField(
+        default=ORG_TYPE_CHOICES[0][0], choices=ORG_TYPE_CHOICES, max_length=15)
     description = models.TextField()
     location = models.CharField(max_length=259)
     assign_name = models.CharField(max_length=50, null=True)

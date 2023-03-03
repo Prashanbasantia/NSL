@@ -11,6 +11,7 @@ from MainApp.models import Issues
 import json
 from django.views.decorators.csrf import csrf_exempt
 
+
 def logoutView(request):
     log_out(request)
     return HttpResponseRedirect(reverse("login"))
@@ -28,6 +29,7 @@ def dashboardView(request):
         today_resolved=(Count('id', filter=Q(
             status="Completed", resolved_date__date=today))),
         computer_issue=(Count('id', filter=Q(issue_type="Computer"))),
+        email_issue=(Count('id', filter=Q(issue_type="Email"))),
         network_issue=(Count('id', filter=Q(issue_type="Network"))),
         printer_issue=(Count('id', filter=Q(issue_type="Printer"))),
         software_issue=(Count('id', filter=Q(issue_type="Software"))),
@@ -155,12 +157,12 @@ def updateIssueStatusView(request):  # sourcery skip: last-if-guard
 @csrf_exempt
 def issueAnalyticsView(request):
     if request.method != "POST":
-        return JsonResponse({'success':False, 'message':"required post method"})
+        return JsonResponse({'success': False, 'message': "required post method"})
     try:
         from_date = (datetime.now() - timedelta(days=6)).date()
         to_date = datetime.now().date()
         date_list = [from_date + timedelta(days=x)
-                    for x in range((to_date-from_date).days + 1)]
+                     for x in range((to_date-from_date).days + 1)]
         issue_graph = Issues.objects.filter(created_at__date__gte=from_date, created_at__date__lte=to_date).values('created_at__date').annotate(
             unassigned_issue=(Count('id', filter=Q(status="Unassigned"))),
             assigned_issue=(Count('id', filter=Q(status="Assigned"))),
@@ -168,18 +170,19 @@ def issueAnalyticsView(request):
             rejected_issue=(Count('id', filter=Q(status="Rejected"))),
 
             computer_issue=(Count('id', filter=Q(issue_type="Computer"))),
+            email_issue=(Count('id', filter=Q(issue_type="Email"))),
             network_issue=(Count('id', filter=Q(issue_type="Network"))),
             printer_issue=(Count('id', filter=Q(issue_type="Printer"))),
             software_issue=(Count('id', filter=Q(issue_type="Software"))),
             other_issue=(Count('id', filter=Q(issue_type="Other"))),
 
         )
-        labels, unassigned, assigned, completed, rejected, computer, network, printer, software, other = ([
-        ] for _ in range(10))
+        labels, unassigned, assigned, completed, rejected, computer, email, network, printer, software, other = ([
+        ] for _ in range(11))
 
         def finddata(date):
             isu = list(filter(None, [
-                    value if value['created_at__date'] == date else {} for value in issue_graph]))
+                value if value['created_at__date'] == date else {} for value in issue_graph]))
             if isu:
                 unassigned.append(isu[0]['unassigned_issue'])
                 assigned.append(isu[0]['assigned_issue'])
@@ -187,6 +190,7 @@ def issueAnalyticsView(request):
                 rejected.append(isu[0]['rejected_issue'])
 
                 computer.append(isu[0]['computer_issue'])
+                email.append(isu[0]['email_issue'])
                 network.append(isu[0]['network_issue'])
                 printer.append(isu[0]['printer_issue'])
                 software.append(isu[0]['software_issue'])
@@ -198,6 +202,7 @@ def issueAnalyticsView(request):
                 rejected.append(0)
 
                 computer.append(0)
+                email.append(0)
                 network.append(0)
                 printer.append(0)
                 software.append(0)
@@ -207,25 +212,26 @@ def issueAnalyticsView(request):
         list(map(finddata, date_list))
 
         issues_status_series = [
-            {'name':'Unassigned','data': unassigned},
-            {'name':'Assigned','data': assigned},
-            {'name':'Completed','data': completed},
-            {'name':'Rejected','data': rejected}
+            {'name': 'Unassigned', 'data': unassigned},
+            {'name': 'Assigned', 'data': assigned},
+            {'name': 'Completed', 'data': completed},
+            {'name': 'Rejected', 'data': rejected}
         ]
         issues_type_series = [
-            {'name':'Computer','data':computer},
-            {'name':'Network','data':network},
-            {'name':'Printer','data':printer},
-            {'name':'Software','data':software},
-            {'name':'Other','data':other}
+            {'name': 'Computer', 'data': computer},
+            {'name': 'Email', 'data': email},
+            {'name': 'Network', 'data': network},
+            {'name': 'Printer', 'data': printer},
+            {'name': 'Software', 'data': software},
+            {'name': 'Other', 'data': other}
         ]
-        data = {'labels':labels, 
-                'issues_status_series':issues_status_series,
-                'issues_type_series':issues_type_series
+        data = {'labels': labels,
+                'issues_status_series': issues_status_series,
+                'issues_type_series': issues_type_series
                 }
-        return JsonResponse({'success':True, 'data':data})
+        return JsonResponse({'success': True, 'data': data})
     except Exception as e:
-        return JsonResponse({'success':False, 'message':e})
+        return JsonResponse({'success': False, 'message': e})
 
 
 def changeNameView(request):  # sourcery skip: last-if-guard
@@ -239,7 +245,7 @@ def changeNameView(request):  # sourcery skip: last-if-guard
             if not last_name:
                 messages.error(request, "Required last name")
                 return HttpResponseRedirect(reverse('manage_issues'))
-            
+
             with transaction.atomic():
                 user = request.user
                 user.first_name = first_name
