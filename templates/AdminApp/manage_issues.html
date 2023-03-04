@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-header d-flex d-flex-row d-flex-sm-column justify-content-between align-items-center">
-        <h5>Manage Issues</h5>
+        <h5>Manage Tickets</h5>
     </div>
     <div class="table-responsive text-nowrap">
         <table class="table">
@@ -121,12 +121,7 @@
                                 <div class="modal-body">
                                     <ul class="mb-1">
                                         <li>
-                                            <span class="fw-light">Ticket No.</span> :
-                                            {{issue.ticket_no}}
-                                        </li>
-                                        <li>
-                                            <span class="fw-light">Employee ID</span> :
-                                            {{issue.emp_empid}}
+                                            <span class="fw-light">Ticket No.</span> <strong>{{issue.ticket_no}}</strong>
                                         </li>
                                     </ul>
                                     <input type="hidden" name="issue_id" value="{{issue.id}}" />
@@ -142,9 +137,9 @@
                                     <div class="row g-2">
                                         <div class="col mb-0">
                                             <label class="form-label" for="assign_phone">Phone</label>
-                                            <input type="text" class="form-control" id="assign_phone"
+                                            <input type="text" class="form-control" id="assign_phone" pattern="[0-9]{4}[0-9]{3}[0-9]{3}"
                                                 value="{%if issue.assign_phone %}{{issue.assign_phone}}{% endif%}"
-                                                name="assign_phone" placeholder="Enter Service Engr. Phone" />
+                                                name="assign_phone" placeholder="Enter Service Engr. Phone" required />
                                         </div>
                                     </div>
                                 </div>

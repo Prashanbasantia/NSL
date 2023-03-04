@@ -53,6 +53,12 @@ def manageIssuesView(request):
             if not assign_phone:
                 messages.error(request, "Required service engineer phone")
                 return HttpResponseRedirect(reverse('manage_issues'))
+            if not assign_phone.isdigit():
+                resp_data = {"success": False, "message": "Phone number must be contains only digits"}
+                return JsonResponse(resp_data)
+            if len(assign_phone) != 10:
+                resp_data = {"success": False, "message": "Phone nummber should be 10 digits"}
+                return JsonResponse(resp_data)
             with transaction.atomic():
                 issue = Issues.objects.get(id=issue_id)
                 if issue.status == "Completed":

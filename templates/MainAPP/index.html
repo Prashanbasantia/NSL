@@ -3,42 +3,41 @@
 
 {% block content %}
 <div class="card mb-4">
-    <h5 class="card-header">Raise A Issue</h5>
+    <h5 class="card-header">Raise A Ticket</h5>
     <hr class="my-0" />
     <div class="card-body">
         <form name="issue_form" id="issue_form" class="issue_form" onsubmit="return false;" novalidate>
             <div class="row">
                 <div id="error_msg"></div>
                 <div class="mb-3 col-md-6">
-                    <label class="form-label" for="name">Full Name</label>
+                    <label class="form-label" for="name">Full Name<i class='text-danger'>*</i></label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter Full Name"
                         required />
-                    <div class="invalid-feedback">Please your name.</div>
+                    <div class="invalid-feedback">Please enter name.</div>
                 </div>
 
                 <div class="mb-3 col-md-6">
                     <label class="form-label" for="email">Email <small class="text-lowercase">(optional)</small></label>
-                    <input type="text" id="email" name="email" class="form-control" placeholder="Enter Email" />
-                    <div class="invalid-feedback">Please your email.</div>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" />
+                    <div class="invalid-feedback">Please enter valid email.</div>
                 </div>
 
                 <div class="mb-3 col-md-6">
-                    <label class="form-label" for="phone">Phone</label>
+                    <label class="form-label" for="phone">Phone<i class='text-danger'>*</i></label>
                     <input type="text" id="phone" name="phone" class="form-control phone-mask" placeholder="Enter Phone"
-                        required />
-                    <div class="invalid-feedback">Please enter phone number.</div>
+                    pattern="[0-9]{4}[0-9]{3}[0-9]{3}" required />
+                    <div class="invalid-feedback">Please enter valid phone number.</div>
                 </div>
 
-
                 <div class="mb-3 col-md-6">
-                    <label class="form-label" for="designation">Designation</label>
+                    <label class="form-label" for="designation">Designation<i class='text-danger'>*</i></label>
                     <input type="text" class="form-control" id="designation" name="designation"
                         placeholder="Enter Designation" required />
                     <div class="invalid-feedback">Please enter designation.</div>
                 </div>
 
                 <div class="mb-3 col-md-6">
-                    <label class="form-label" for="organization">Organization</label>
+                    <label class="form-label" for="organization">Organization<i class='text-danger'>*</i></label>
                     <select name="organization" id="organization" class="select2 form-select" required>
                         <option selected disabled value="">Select Organization</option>
                         <option value="NSL">NSL</option>
@@ -49,11 +48,11 @@
                 </div>
 
                 <div class="mb-3 col-md-6">
-                    <label for="issue_type" class="form-label">Issue Type</label>
+                    <label for="issue_type" class="form-label">Issue Type<i class='text-danger'>*</i></label>
                     <select name="issue_type" id="issue_type" class="select2 form-select" required>
                         <option selected disabled value="">Select Issue Type</option>
                         <option value="Computer">Computer</option>
-                        <option value="Email">Emial</option>
+                        <option value="Email">Email</option>
                         <option value="Network">Network</option>
                         <option value="Printer">Printer</option>
                         <option value="Software">Software</option>
@@ -63,19 +62,22 @@
                 </div>
 
                 <div class="mb-3 col-md-6">
-                    <label class="form-label" for="location">Issue Description</label>
+                    <label class="form-label" for="location">Issue Description<i class='text-danger'>*</i></label>
                     <textarea class="form-control" id="description" placeholder="Enter Issue Description"
                         name="description" rows="1" required></textarea>
                     <div class="invalid-feedback">Please enter description.</div>
                 </div>
 
                 <div class="mb-3 col-md-6">
-                    <label class="form-label" for="location">Location</label>
+                    <label class="form-label" for="location">Location<i class='text-danger'>*</i></label>
                     <input type="text" class="form-control" id="location" name="location" placeholder="Enter Location"
                         required />
                     <div class="invalid-feedback">Please enter location.</div>
                 </div>
 
+                <div class="card-title d-flex align-items-start justify-content-between">
+                    <i class='text-danger'>* is Manadatory Field</i>
+                </div>
             </div>
 
             <center>

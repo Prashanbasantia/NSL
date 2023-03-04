@@ -6,8 +6,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
-                    <span class="fw-bold text-primary d-block mb-1">Today's Issues</span>
-                    <a href="{% url 'manage_issues' %}" class="btn btn-sm btn-outline-primary">View Issues</a>
+                    <span class="fw-bold text-primary d-block mb-1">Today's Tickets</span>
+                    <a href="{% url 'manage_issues' %}" class="btn btn-sm btn-outline-primary">View Tickets</a>
                 </div>
                 <div class="d-flex align-items-start justify-content-between">
                     <span class="card-title">Raised <strong>{{today_raised}}</strong> </span>
@@ -21,9 +21,9 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 col-6 mb-4">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body px-1">
                         <div class="card-title text-center">
-                            <span class="fw-semibold d-block mb-1 text-secondary">Unassigned</span>
+                            <span class="fw-light d-block mb-1 text-secondary">Unassigned Tickets</span>
                         </div>
                         <h3 class="card-title text-center text-secondary mb-2">{{unassigned_issue}}</h3>
                     </div>
@@ -33,7 +33,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title text-center">
-                            <span class="fw-semibold d-block mb-1 text-primary">Assigned Issue</span>
+                            <span class="fw-light d-block mb-1 text-primary">Assigned Tickets</span>
                         </div>
                         <h3 class="card-title text-center mb-2 text-primary">{{assigned_issue}}</h3>
                     </div>
@@ -44,7 +44,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title text-center">
-                            <span class="fw-semibold d-block mb-1 text-success">Completed Issue</span>
+                            <span class="fw-light d-block mb-1 text-success">Completed Tickets</span>
                         </div>
                         <h3 class="card-title text-center mb-2 text-success">{{completed_issue}}</h3>
                     </div>
@@ -55,7 +55,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title text-center">
-                            <span class="fw-semibold d-block text-danger mb-1">Rejected Issue</span>
+                            <span class="fw-light d-block text-danger mb-1">Rejected Tickets</span>
                         </div>
                         <h3 class="card-title text-center text-danger mb-2">{{rejected_issue}}</h3>
                         <!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> -->

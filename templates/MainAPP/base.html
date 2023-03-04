@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>NSL HELP DESK</title>
+    <title>NSL HELPDESK</title>
 
     <meta name="description" content="" />
 
@@ -57,16 +57,16 @@
                 <ul class="nav nav-pills nav-fill flex-column flex-md-row mb-3">
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == index%}active{% endif %}" href="{{index}}">
-                            <i class="bx bx-info-circle me-1"></i> Issue
+                            <i class="bx bx-info-circle me-1"></i> Raise A Ticket
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == status %}active{% endif %}" href="{{status}}"><i
-                                class="bx bx-credit-card me-1"></i> Status </a>
+                                class="bx bx-credit-card me-1"></i> Ticket Status </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == login%}active{% endif %}" href="{{login}}"><i
-                                class="bx bx-lock me-1"></i> Login</a>
+                                class="bx bx-lock me-1"></i> Login For Ticket Assignment</a>
                     </li>
                 </ul>
 

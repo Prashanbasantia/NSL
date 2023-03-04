@@ -9,6 +9,7 @@ from django.db import transaction
 from MainApp.models import Issues
 from datetime import datetime
 import json
+import re
 from django.views.decorators.csrf import csrf_exempt
 from .utils import Syserror
 UserModel = get_user_model()
@@ -28,7 +29,6 @@ def raised_issue(request):
         return JsonResponse(resp_data)
     try:
         data = json.loads(request.body)
-        print("data", data)
         email = data.get("email", None)
         name = data.get("name", None)
         phone = data.get("phone", None)
@@ -40,9 +40,20 @@ def raised_issue(request):
         if not all([name, phone, organization, designation, issue_type, location, description]):
             resp_data = {"success": False, "message": "Required All Field"}
             return JsonResponse(resp_data)
+        if not phone.isdigit():
+            resp_data = {"success": False, "message": "Phone number must be contains only digits"}
+            return JsonResponse(resp_data)
+        if len(phone) != 10:
+            resp_data = {"success": False, "message": "Phone nummber should be 10 digits"}
+            return JsonResponse(resp_data)
+        if email:
+            email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+            if not re.match(email_regex, email):
+                resp_data = {"success": False, "message": "Invalid email"}
+                return JsonResponse(resp_data)
         if organization not in ORG_CHOICES:
             resp_data = {"success": False, "message": "Invalid Organization"}
-
+            return JsonResponse(resp_data)
         if issue_type not in ISSUE_TYPE_CHOICES:
             resp_data = {"success": False, "message": "Invalid issue type"}
             return JsonResponse(resp_data)
